@@ -1,0 +1,24 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<nav>
+    <ul>
+        <li><a href="/bdalumnos">Volver</a></li>
+    </ul>
+</nav>
+<table>
+    <tr>
+        <td th:text="${alumno.dni}" />
+        <td th:text="${alumno.nombre}" />
+        <td th:text="${alumno.apellidos}" />
+        <td th:text="${alumno.grupo}" />
+        <td th:text="${alumno.asignaturas?.size()}" />
+        <table>
+            <tr th:each="asignatura: ${alumno.asignaturas}">
+                <td th:text="${asignatura.codasignatura}" />
+                <td th:text="${asignatura.nombreasignatura}" />
+            </tr>
+        </table>
+    </tr>
+</table>
+</body>
+</html>
