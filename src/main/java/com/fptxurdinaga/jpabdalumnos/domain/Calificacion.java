@@ -1,47 +1,59 @@
 package com.fptxurdinaga.jpabdalumnos.domain;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity(name = "Calificaciones")
 @Table(name = "Calificaciones")
 @Data
+@ToString
 public class Calificacion {
-    @Id
-    private String dni;
-    private String codasignatura;
-    private Integer nota;
+	@Id
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "id_calificacion")
+	private Long id;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "dni")
+    private Alumno alumno;
+	
+	@ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "codasignatura")
+    private Asignatura asignatura;
     
-    public Calificacion(){
-		super();
-		this.dni="00000000A";
-		this.codasignatura = "PROG";
-		this.nota = 5;
+	private int nota;
+    
+	public Long getId() {
+		return id;
 	}
-    public Calificacion(String d,String c,Integer n){
-		super();
-		this.dni=d;
-		this.codasignatura = c;
-		this.nota = n;
+
+	public void setId(Long id) {
+		this.id = id;
 	}
-	public String getDni() {
-		return dni;
+
+	public Alumno getAlumno() {
+		return alumno;
 	}
-	public void setDni(String dni) {
-		this.dni = dni;
+
+	public void setAlumno(Alumno alumno) {
+		this.alumno = alumno;
 	}
-	public String getCodasignatura() {
-		return codasignatura;
+
+	public Asignatura getAsignatura() {
+		return asignatura;
 	}
-	public void setCodasignatura(String codasignatura) {
-		this.codasignatura = codasignatura;
+
+	public void setAsignatura(Asignatura asignatura) {
+		this.asignatura = asignatura;
 	}
+
 	public Integer getNota() {
 		return nota;
 	}
+
 	public void setNota(Integer nota) {
 		this.nota = nota;
 	}
-	
 }

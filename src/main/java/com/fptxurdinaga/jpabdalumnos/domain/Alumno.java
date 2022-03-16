@@ -1,17 +1,25 @@
 package com.fptxurdinaga.jpabdalumnos.domain;
 
 import lombok.Data;
+import lombok.ToString;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity(name = "Alumnos")
 @Table(name = "Alumnos")
 @Data
+@ToString
 public class Alumno {
-    @Id
+	private Long id;
     private String dni;
     private String nombre;
     private String apellidos;
     private String grupo;
+    
+    private List<Calificacion> calificaciones = new ArrayList<Calificacion>();
     
     public Alumno(){
 		super();
@@ -29,6 +37,16 @@ public class Alumno {
 		this.apellidos = a;
 		this.grupo = g;
 	}
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @Column(name = "id_alumno")
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 	public String getDni() {
 		return dni;
 	}
@@ -53,4 +71,17 @@ public class Alumno {
 	public void setGrupo(String grupo) {
 		this.grupo = grupo;
 	}
+	
+	@OneToMany(mappedBy = "alumno")
+	public List<Calificacion> getCalificaciones() {
+        return calificaciones;
+    }
+
+    public void setCalificaciones(List<Calificacion> calificaciones) {
+        this.calificaciones = calificaciones;
+    }
+
+    public void addCalificaciones(Calificacion calificacion) {
+        this.calificaciones.add(calificacion);
+    }
 }

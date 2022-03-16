@@ -40,17 +40,47 @@ public class JpaBdalumnosController {
         Integer actualSize= alumnoRepository.findAll().size();
         if (actualSize.equals(0)){
         	// si no hay alumnos
-            Alumno a;
-            a = new Alumno("1","N1","A1","1DW3");
-            alumnoRepository.save(a);
-            a = new Alumno("2","N2","A2","2DW3");
-            alumnoRepository.save(a);
-            a = new Alumno("3","N3","A3","2DW3");
-            alumnoRepository.save(a);
-            a = new Alumno("4","N4","A4","1DW3");
-            alumnoRepository.save(a);
-            // guardo los cambios en la base de datos
-            alumnoRepository.flush();
+        	// creo los alumnos
+            Alumno a1 = new Alumno("1","N1","A1","1DW3");
+            alumnoRepository.save(a1);
+            Alumno a2 = new Alumno("2","N2","A2","2DW3");
+            alumnoRepository.save(a2);
+            Alumno a3 = new Alumno("3","N3","A3","2DW3");
+            alumnoRepository.save(a3);
+            Alumno a4 = new Alumno("4","N4","A4","1DW3");
+            alumnoRepository.save(a4);
+            // creo las asignaturas
+            Asignatura as1 = new Asignatura("BD","Bases de Datos","Bases de Datos");
+            asignaturaRepository.save(as1);
+            Asignatura as2 = new Asignatura("ED","Entornos de Desarrollo","Entornos de Desarrollo");
+            asignaturaRepository.save(as2);
+            Asignatura as3 = new Asignatura("LM","Lenguajes de Marcas","Lenguajes de Marcas");
+            asignaturaRepository.save(as3);
+            Asignatura as4 = new Asignatura("PROG","Programacion","Programacion Java");
+            asignaturaRepository.save(as4);
+            // creo las calificaciones
+            Calificacion c1 = new Calificacion();
+            c1.setAlumno(a1);
+            c1.setAsignatura(as1);
+            c1.setNota(7);
+            calificacionRepository.save(c1);
+            Calificacion c2 = new Calificacion();
+            c2.setAlumno(a1);
+            c2.setAsignatura(as2);
+            c2.setNota(9);
+            calificacionRepository.save(c2);
+
+            Calificacion c3 = new Calificacion();
+            c3.setAlumno(a2);
+            c3.setAsignatura(as4);
+            c3.setNota(8);
+            calificacionRepository.save(c3);
+            // creo las calificaciones
+            Calificacion c4 = new Calificacion();
+            c4.setAlumno(a3);
+            c4.setAsignatura(as1);
+            c4.setNota(5);
+            calificacionRepository.save(c4);
         }
         // cargo los datos de los alumnos en el modelo
         List<Alumno> listado = alumnoRepository.findAll();
@@ -63,10 +93,12 @@ public class JpaBdalumnosController {
         Integer actualSize= alumnoRepository.findAll().size();
         if (actualSize > 0){
         	// si  hay alumnos
-        	// borro todos
+        	// borro las calificaciones
+        	calificacionRepository.deleteAll();
+        	// borro las asignaturas
+            asignaturaRepository.deleteAll();
+        	// borro los alumnos
             alumnoRepository.deleteAll();
-            // guardo los cambios en la base de datos
-            alumnoRepository.flush();
         }
         // cargo los datos de los alumnos en el modelo
         List<Alumno> listado = alumnoRepository.findAll();
@@ -74,7 +106,7 @@ public class JpaBdalumnosController {
         // muestro el listado
         return "listado";
     }
-    @GetMapping("/insertarasignaturas")
+    @GetMapping("/listadoasignaturas")
     public String insertarasignatura(Model modelo) {
         Integer actualSize= asignaturaRepository.findAll().size();
         if (actualSize.equals(0)){
@@ -88,72 +120,11 @@ public class JpaBdalumnosController {
             asignaturaRepository.save(a);
             a = new Asignatura("PROG","Programacion","Programacion Java");
             asignaturaRepository.save(a);
-            // guardo los cambios en la base de datos
-            asignaturaRepository.flush();
         }
         // cargo los datos de las asignaturas en el modelo
         List<Asignatura> listadoasignaturas = asignaturaRepository.findAll();
         modelo.addAttribute("asignaturas", listadoasignaturas);
         // muestro el listado
         return "listadoasignaturas";
-    }
-    @GetMapping("/borrarasignaturas")
-    public String borrarasignaturas(Model modelo) {
-        Integer actualSize= asignaturaRepository.findAll().size();
-        if (actualSize > 0){
-        	// si  hay asignaturas
-        	// borro todas
-        	asignaturaRepository.deleteAll();
-            // guardo los cambios en la base de datos
-        	asignaturaRepository.flush();
-        }
-        // cargo los datos de las asignaturas en el modelo
-        List<Asignatura> listadoasignaturas = asignaturaRepository.findAll();
-        modelo.addAttribute("asignaturas", listadoasignaturas);
-        // muestro el listado
-        return "listadoasignaturas";
-    }
-    @GetMapping("/insertarcalificaciones")
-    public String insertarcalificaciones(Model modelo) {
-        Integer actualSize= calificacionRepository.findAll().size();
-        if (actualSize.equals(0)){
-        	// si no hay calificaciones
-            Calificacion c;
-            c = new Calificacion("1","BD",7);
-            calificacionRepository.save(c);
-            c = new Calificacion("1","PROG",9);
-            calificacionRepository.save(c);
-            c = new Calificacion("2","PROG",6);
-            calificacionRepository.save(c);
-            c = new Calificacion("3","LM",5);
-            calificacionRepository.save(c);
-            c = new Calificacion("3","PROG",4);
-            calificacionRepository.save(c);
-            c = new Calificacion("4","ED",9);
-            calificacionRepository.save(c);
-            // guardo los cambios en la base de datos
-            calificacionRepository.flush();
-        }
-        // cargo los datos de las asignaturas en el modelo
-        List<Calificacion> listadocalificaciones = calificacionRepository.findAll();
-        modelo.addAttribute("calificaciones", listadocalificaciones);
-        // muestro el listado
-        return "listadocalificaciones";
-    }
-    @GetMapping("/borrarcalificaciones")
-    public String borrarcalificaciones(Model modelo) {
-        Integer actualSize= calificacionRepository.findAll().size();
-        if (actualSize > 0){
-        	// si  hay calificaciones
-        	// borro todas
-        	calificacionRepository.deleteAll();
-            // guardo los cambios en la base de datos
-        	calificacionRepository.flush();
-        }
-        // cargo los datos de las asignaturas en el modelo
-        List<Calificacion> listadocalificaciones = calificacionRepository.findAll();
-        modelo.addAttribute("calificaciones", listadocalificaciones);
-        // muestro el listado
-        return "listadocalificaciones";
     }
 }
