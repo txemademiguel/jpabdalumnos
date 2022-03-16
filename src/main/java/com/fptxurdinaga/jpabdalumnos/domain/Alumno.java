@@ -1,10 +1,7 @@
 package com.fptxurdinaga.jpabdalumnos.domain;
 
 import lombok.Data;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity(name = "Alumnos")
 @Table(name = "Alumnos")
@@ -55,5 +52,5 @@ public class Alumno {
 	}
 	public void setGrupo(String grupo) {
 		this.grupo = grupo;
-	}   
+	}
 }
